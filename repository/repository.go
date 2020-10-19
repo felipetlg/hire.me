@@ -12,11 +12,19 @@ const (
 	databaseLocation = "repository/database.db"
 )
 
-type Repository struct {
+type Repository interface {
+	SetupDatabase() error
+	InsertNewEntry(url *model.Url) error
+	RetrieveLongUrl(alias string) (*model.Url, error)
+	UpdateUrl(url *model.Url)
+	MostVisited(n int) ([]model.Url, error)
+}
+
+type UrlRepository struct {
 	Db *gorm.DB
 }
 
-func (repo *Repository) SetupDatabase() error {
+func (repo *UrlRepository) SetupDatabase() error {
 
 	// DEBUG database query
 	// newLogger := logger.New(
@@ -39,14 +47,14 @@ func (repo *Repository) SetupDatabase() error {
 	return nil
 }
 
-func (repo *Repository) InsertNewEntry(url *model.Url) error {
+func (repo *UrlRepository) InsertNewEntry(url *model.Url) error {
 	result := repo.Db.Create(url)
 
 	// Caso o alias já exista retorna erro e não insere nova entrada
 	return result.Error
 }
 
-func (repo *Repository) RetrieveLongUrl(alias string) (*model.Url, error) {
+func (repo *UrlRepository) RetrieveLongUrl(alias string) (*model.Url, error) {
 	var url model.Url
 	result := repo.Db.Where("alias = ?", alias).First(&url)
 
@@ -54,16 +62,18 @@ func (repo *Repository) RetrieveLongUrl(alias string) (*model.Url, error) {
 	return &url, result.Error
 }
 
-func (repo *Repository) UpdateUrl(url *model.Url) {
+func (repo *UrlRepository) UpdateUrl(url *model.Url) {
 	err := repo.Db.Model(url).Where("alias = ?", url.Alias).Update("visits", url.Visits).Error
 	if err != nil {
 		log.Print(err)
 	}
 }
 
-func (repo *Repository) MostVisited(n int) ([]model.Url, error) {
+func (repo *UrlRepository) MostVisited(n int) ([]model.Url, error) {
 	urls := make([]model.Url, 0)
-	if err := repo.Db.Order("visits desc").Limit(n).
+	if err := repo.Db.
+		Order("visits desc").
+		Limit(n).
 		Find(&urls).Error; err != nil {
 		return nil, err
 	}

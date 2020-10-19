@@ -14,19 +14,22 @@ import (
 )
 
 func main() {
-	repository := &repository.Repository{}
-	repository.SetupDatabase()
+	var repo repository.Repository = &repository.UrlRepository{}
+	err := repo.SetupDatabase()
+	if err != nil {
+		log.Print(err)
+	}
 
 	//TODO captar sinais do sistema para notificações de kill...
 
 	urlService := &service.UrlService{
-		Repo: repository,
+		Repo: repo,
 	}
 	urlHandler := &handle.UrlHandler{
 		Service: urlService,
 	}
 
-	router := mux.NewRouter().StrictSlash(true)
+	router := mux.NewRouter()
 	router.HandleFunc("/", urlHandler.CreateShortUrl).Methods("POST")
 	router.HandleFunc("/get/{alias}", urlHandler.RedirectToLongUrl).Methods("GET")
 	router.HandleFunc("/topvisit", urlHandler.GetMostVisited).Methods("GET")

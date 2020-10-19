@@ -14,7 +14,7 @@ const (
 )
 
 type UrlService struct {
-	Repo *repository.Repository
+	Repo repository.Repository
 }
 
 func (s *UrlService) InsertNewAlias(url *model.Url) error {
