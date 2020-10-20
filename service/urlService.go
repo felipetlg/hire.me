@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	baseUrl          = "http://localhost:8080/"
+	baseShortUrl     = "http://localhost:8080/s/"
 	topVisitQuantity = 10
 )
 
@@ -23,7 +23,7 @@ func (s *UrlService) InsertNewAlias(url *model.Url) error {
 		url.Alias = createHash(url.LongUrl)
 	}
 
-	url.ShortUrl = baseUrl + url.Alias
+	url.ShortUrl = baseShortUrl + url.Alias
 
 	err := s.Repo.InsertNewEntry(url)
 

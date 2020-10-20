@@ -30,8 +30,9 @@ func main() {
 	}
 
 	router := mux.NewRouter()
+	router.HandleFunc("/", urlHandler.Index).Methods("GET")
 	router.HandleFunc("/", urlHandler.CreateShortUrl).Methods("POST")
-	router.HandleFunc("/get/{alias}", urlHandler.RedirectToLongUrl).Methods("GET")
-	router.HandleFunc("/topvisit", urlHandler.GetMostVisited).Methods("GET")
+	router.HandleFunc("/s/{alias}", urlHandler.RedirectToLongUrl).Methods("GET")
+	router.HandleFunc("/top", urlHandler.GetMostVisited).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

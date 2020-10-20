@@ -25,18 +25,6 @@ type UrlRepository struct {
 }
 
 func (repo *UrlRepository) SetupDatabase() error {
-
-	// DEBUG database query
-	// newLogger := logger.New(
-	// 	log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
-	// 	logger.Config{
-	// 		SlowThreshold: time.Second, // Slow SQL threshold
-	// 		LogLevel:      logger.Info, // Log level
-	// 		Colorful:      false,       // Disable color
-	// 	},
-	// )
-	//db, err := gorm.Open(sqlite.Open(databaseLocation), &gorm.Config{Logger: newLogger})
-
 	db, err := gorm.Open(sqlite.Open(databaseLocation), &gorm.Config{})
 
 	if err != nil {

@@ -3,12 +3,17 @@ package handle
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 
 	"github.com/felipetlg/hire.me/model"
 	"github.com/felipetlg/hire.me/service"
 	"github.com/gorilla/mux"
+)
+
+const (
+	templateLocation = "template/index.html"
 )
 
 type UrlHandler struct {
@@ -57,6 +62,11 @@ func (uh *UrlHandler) GetMostVisited(w http.ResponseWriter, r *http.Request) {
 		log.Print(err)
 		return
 	}
-	// TODO pegar slice de string e retornar json
+
 	json.NewEncoder(w).Encode(urls)
+}
+
+func (uh *UrlHandler) Index(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles(templateLocation))
+	tmpl.Execute(w, nil)
 }
