@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"time"
 
 	"github.com/felipetlg/hire.me/model"
@@ -20,7 +21,11 @@ type UrlService struct {
 func (s *UrlService) InsertNewAlias(url *model.Url) error {
 	// Verifica se não enviou um alias customizado para criar uma hash
 	if url.Alias == "" {
-		url.Alias = createHash(url.LongUrl)
+		if alias, err := createHash(url.LongUrl); err != nil {
+			return err
+		} else {
+			url.Alias = alias
+		}
 	}
 
 	url.ShortUrl = baseShortUrl + url.Alias
@@ -43,15 +48,15 @@ func (s *UrlService) MostVisited() ([]model.Url, error) {
 	return s.Repo.MostVisited(topVisitQuantity)
 }
 
-func createHash(seed string) string {
+func createHash(seed string) (string, error) {
 	hd := hashids.NewData()
 	hd.Salt = seed
 	h, err1 := hashids.NewWithData(hd)
 	hash, err2 := h.Encode([]int{int(time.Now().Unix())})
 
 	if err1 != nil || err2 != nil {
-		//TODO: logError
+		return "", errors.New("Error creating hash.")
 	}
 
-	return hash
+	return hash, nil
 }

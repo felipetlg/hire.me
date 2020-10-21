@@ -2,6 +2,7 @@ package handle
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -25,10 +26,16 @@ func (uh *UrlHandler) CreateShortUrl(w http.ResponseWriter, r *http.Request) {
 	err := uh.Service.InsertNewAlias(&url)
 
 	if err != nil {
-		// TODO diferenciar erro de "problema" de erro de inserção
+		if url.Alias != "" {
+			// Envia código de erro em caso de o Alias já estar em uso
+			m := `{"alias": "%s", "err_code": "001", "description": "CUSTOM ALIAS ALREADY EXISTS"}`
+			send := fmt.Sprintf(m, url.Alias)
 
-		http.Error(w, "error", http.StatusInternalServerError)
-		log.Print("error")
+			w.Write([]byte(send))
+		} else {
+			http.Error(w, "error", http.StatusInternalServerError)
+			log.Print(err)
+		}
 
 		return
 	}
