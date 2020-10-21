@@ -87,3 +87,45 @@ Não há requerimentos específicos para linguagens, somos poliglotas. Utilize a
 3. Crie um *client* para chamar sua API
 4. Faça um diagrama de sequencia da implementação feita nos casos de uso (Dica, use o https://www.websequencediagrams.com/)
 5. Monte um deploy da sua solução utilizando containers 
+
+## Realização do projeto
+
+1. A API foi desenvolvida em Go
+2. Foi criada uma interface simples em html+javascript que usa a API
+3. O banco de dados foi criado usando sqlite3 com uma tabela criada da seguinte forma:
+```CREATE TABLE urls(alias TEXT PRIMARY KEY, longUrl TEXT NOT NULL, shortUrl TEXT NOT NULL, visits INTEGER DEFAULT 0)```
+
+## Build & Run
+
+* Com o Docker:
+1. É necessária a instalação do Docker
+    1. Verificar instruções em https://docs.docker.com/get-docker/
+3. Navegar até a pasta do projeto clonado
+2. *Build:* ```$ docker build -t api_shortener .```
+4. *Run:* ```$ docker run -d -p 8080:8080 api_shortener```
+
+* Sem o Docker:
+1. Com a instalação do Go (https://golang.org/dl/) e das bibliotecas descritas em "requirements.txt"
+2. Pode-se rodar navegando até a pasta do projeto clonado e fazendo: ```$ go run main.go```
+
+## Usando a API
+
+Após seguir os passos da sessão anterior:
+
+* Com a interface:
+Foi criada uma interface onde é possível usar o navegador web e ir até: http://localhost:8080/, onde é possível:
+1. Criar uma nova URL curta ao inserir a URL original e um alias (opcional)
+2. Após a criação é possível usar a URL curta da seguinte forma: http://localhost:8080/s/{ALIAS} (onde {ALIAS} deve ser substituído pelo criado)
+
+* Sem a interface:
+Aqui vão alguns exemplos usando curl
+-- Com alias
+curl -L -X POST 'localhost:8080' -H 'Content-Type: application/json' --data-raw '{
+"alias": "bemobi",
+"longUrl": "https://www.bemobi.com.br/careers.html"
+}'
+
+-- Sem alias
+curl -L -X POST 'localhost:8080' -H 'Content-Type: application/json' --data-raw '{
+"longUrl": "https://www.google.com/maps/place/Bemobi/@-22.9461593,-43.1852983,17z/data=!3m1!4b1!4m5!3m4!1s0x997ff0ef611383:0x4b66002fd48e7656!8m2!3d-22.9461643!4d-43.1831043"
+}'
