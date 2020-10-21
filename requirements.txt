@@ -1,5 +1,0 @@
-#Go 1.15
-go get -u github.com/gorilla/mux
-go get github.com/mattn/go-sqlite3
-go get -u gorm.io/gorm
-go get github.com/speps/go-hashids
