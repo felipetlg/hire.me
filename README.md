@@ -138,3 +138,9 @@ curl -L -X POST 'localhost:8080' -H 'Content-Type: application/json' --data-raw 
 "longUrl": "https://www.google.com/maps/place/Bemobi/@-22.9461593,-43.1852983,17z/data=!3m1!4b1!4m5!3m4!1s0x997ff0ef611383:0x4b66002fd48e7656!8m2!3d-22.9461643!4d-43.1831043"
 }'
 ```
+
+## Testes unitários
+
+A camada de serviços possui testes unitários e para rodá-los:
+1. Navegar até "hire.me/service"
+2. Executar ```$ go test -v```
