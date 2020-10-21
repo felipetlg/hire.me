@@ -39,11 +39,9 @@
 							}
 							$.post( "/", JSON.stringify({ alias: al, longUrl: url }), function( data ) {
 								if(data.err_code) {
-									console.log(data)
-									alert("Alias already in use.");
+									alert(data.description);
 								}
 								else {
-									console.log(data)
 									$("#result").html("Url shortened with success: "+data.shortUrl);
 								}
 								}, "json");
