@@ -105,8 +105,10 @@ Não há requerimentos específicos para linguagens, somos poliglotas. Utilize a
 4. **Run:** ```$ docker run -d -p 8080:8080 api_shortener```
 
 * Sem o Docker:
-1. Com a instalação do Go (https://golang.org/dl/) e das bibliotecas descritas em "requirements.txt"
-2. **Run:** na pasta do projeto clonado: ```$ go run main.go```
+1. Com a instalação do Go (https://golang.org/dl/)
+2. Navegar até a pasta do projeto clonado
+3. Executar ```$ go get``` (busca as dependências definidas em "go.mod")
+4. **Run:** na pasta do projeto clonado: ```$ go run main.go```
 
 ## Usando a API
 
