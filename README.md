@@ -117,6 +117,7 @@ Após seguir os passos da sessão anterior:
 Foi criada uma interface onde é possível usar o navegador web e ir até: http://localhost:8080/, onde é possível:
 1. Criar uma nova URL curta ao inserir a URL original e um alias (opcional)
 2. Após a criação é possível usar a URL curta da seguinte forma: http://localhost:8080/s/{ALIAS} (onde {ALIAS} deve ser substituído pelo criado)
+3. Visualizar e acessar as top 10 URL's curtas que ficam disponíveis na interface
 
 * Sem a interface:
 
