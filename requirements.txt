@@ -23,4 +23,4 @@ curl -L -X POST 'localhost:8080' -H 'Content-Type: application/json' --data-raw 
 #Docker configuration
 docker build -t api_shortener .
 
-
+docker run -d -p 8080:8080 api_shortener

@@ -13,6 +13,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
+const staticFilesLocation = "/template/static/"
+
 func main() {
 	var repo repository.Repository = &repository.UrlRepository{}
 	err := repo.SetupDatabase()
@@ -30,6 +32,7 @@ func main() {
 	}
 
 	router := mux.NewRouter()
+	router.PathPrefix(staticFilesLocation).Handler(http.StripPrefix(staticFilesLocation, http.FileServer(http.Dir("."+staticFilesLocation))))
 	router.HandleFunc("/", urlHandler.Index).Methods("GET")
 	router.HandleFunc("/", urlHandler.CreateShortUrl).Methods("POST")
 	router.HandleFunc("/s/{alias}", urlHandler.RedirectToLongUrl).Methods("GET")

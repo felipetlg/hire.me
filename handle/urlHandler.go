@@ -2,7 +2,6 @@ package handle
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -24,13 +23,13 @@ func (uh *UrlHandler) CreateShortUrl(w http.ResponseWriter, r *http.Request) {
 	var url model.Url
 	_ = json.NewDecoder(r.Body).Decode(&url)
 	err := uh.Service.InsertNewAlias(&url)
-	fmt.Print(url)
 
 	if err != nil {
 		// TODO diferenciar erro de "problema" de erro de inserção
 
 		http.Error(w, "error", http.StatusInternalServerError)
 		log.Print("error")
+
 		return
 	}
 

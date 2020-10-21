@@ -1,0 +1,42 @@
+body {
+  color: white;
+}
+
+#page-landing {
+  background: linear-gradient(329.54deg, #29b6d1 0%, #00c7c7 100%) no-repeat;
+  text-align: center;
+  min-height: 100vh;
+  align-content: center;
+  display: flex;
+
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  margin: auto;
+  width: 80%;
+}
+
+#visitsTable {
+  width:70%; 
+  margin-left:15%; 
+  margin-right:15%;
+  text-align: center;
+}
+
+#createButton {
+  border-radius: 12px;
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+}
+
+#createButton {
+  transition-duration: 0.4s;
+}
+
+#createButton:hover {
+  background-color: rgb(216, 69, 93); /* Green */
+  color: white;
+}
